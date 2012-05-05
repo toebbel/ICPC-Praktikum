@@ -4,11 +4,15 @@ using namespace std;
 
 int main() {
 	int n, m = 0;
-	cin >> n;
 	cin >> m;
+	cin >> n;
 
 	unsigned int arr[n + 1][m + 1];
-
+	
+	for(int i = 0; i < n + 1; i++)
+		arr[i][0] = 0;
+	for(int j = 0; j < m + 1; j++)
+		arr[0][j] = 0;
 
 	//read the array, calc the sum
 	unsigned int tmp = 0;
@@ -19,7 +23,14 @@ int main() {
 		}
 	}
 
+//////////////////////////////
+	for(int i = 0; i < n + 1; i++) {
+		for(int j = 0; j < m + 1; j++)
+			cout << arr[i][j] << " ";
+		cout << endl;
+	}
 
+//////////////////////////////
 	int xmin, ymin, xmax, ymax;
 	while(cin >> xmin >> ymin >> xmax >> ymax) {
 		int area1 = arr[xmax][ymax];

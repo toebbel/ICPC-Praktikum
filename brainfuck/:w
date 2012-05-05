@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <vector>
+
+using namespace std;
+
+bool valid(string line);
+string run(string code);
+
+int main (){
+	int n = 0;
+	cin >> n;
+	cin.ignore();
+	for(int i = 0; i < n; i++) {
+
+		//read program and clean (ignore linebreaks, comments, other chars)
+		string code = "";
+		string line = "";
+		getline(cin, line);
+		while(line != "end") {
+			for(int i = 0; i < line.length(); i++) {
+				if(line[i] == '%') break;
+				if(line[i] == '.' || line[i] == '>' || line[i] == '<' || line[i] == '+' || line[i] == '-' || line[i] == '[' || line[i] == ']')
+					code.push_back(line[i]);
+			}
+			getline(cin, line);
+		}
+		//cout << code << endl;
+
+		if(!valid(code)) {
+			cout << "PROGRAM #" << i << " COMPILE ERROR" << endl;
+		}
+
+	}
+}
+
+string run(string code) {
+	int codePos = 0;
+	int ptr = 0;
+	vector<t_uint8> data(32768);
+	while(codePos < code.length) {
+
+	}	
+}
+
+bool valid(string line) {
+	stack<char> myStack;
+	char curr = ' ';	
+	for(int i = 0; i < line.length(); i++) {
+			curr = line[i];	
+			if(curr == '[') {
+				myStack.push(curr);
+			} else {
+				if(myStack.size() == 0) {
+					myStack.push('e');
+					break;
+				}
+				
+				if((curr == ']' && myStack.top() == '['))
+					myStack.pop();
+				else {
+					break;
+				}
+			}
+		}
+		if(myStack.size() == 0)
+			return true;
+		else
+			return false;
+}
+

@@ -68,10 +68,46 @@ int main() {
 	cout << "read for requests" << endl;
 	int xmin, ymin, xmax, ymax;
 	while(cin >> xmin >> ymin >> xmax >> ymax) {
-		int mask = 512;
+		int size = 512;
+		int pot = 9;
 		while(!((xmax - xmin) & mask) && !((ymax - ymin) & mask)) {
-			mask = mask >> 1;
+			size = size >> 1;
+			pot--;
 		}
-		cout << "bestmatch: " << mask << endl;
+		cout << "bestmatch: " << size << endl;
+		int xrel, yrel, xrelmax, yrelmax = 0;
+
+		//calc area, that matches precalced squares
+		while(xmin < xrel * size)
+			xreal++;
+		while(ymin < yrel * size)
+			yrel++;
+		while(xrelmax * size < xmax)
+			xrelmax += size;
+		xrelmax -= size;
+		while(yrelmax * size < ymax)
+			yrelmax += size;
+		yrelmax -= size;
+
+		//calc the minimum
+		int currMin = 0;
+
+		//precalculated squares inside the area
+		for(int x = xrel; x * size < xmax; x++)
+			for(int y = yrel; y * size < ymax; y++)
+				if(fields[pot][x][y] < currMin)
+					currMin = fields[pot][x][y];
+
+		//border left or over the squares
+		for(int x = xmin; x < xrel * size; x++)
+			for(int y = ymin; y < yrel * size; y++)
+				if(fields[0][x][y] < currMin)
+					currMin = fields[0][x][y];
+	
+		//border right or under the square
+		for(int x = xrelmax; x < xmax; x++)
+			for(int y = yrelmax; y < ymax; y++)
+				if(fields[0][x][y] < currMin)
+					currMin = fields[0][x][y];
 	}
 }

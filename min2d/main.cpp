@@ -23,7 +23,12 @@ int main() {
 	//calc fields, with each square 2^pot in size and push onto vector
 	unsigned int pot = 2;
 	vector < vector <int > > source = field;
-	while(pot < cols && pot < lines) {
+	int original_lines = lines;
+	int original_cols = cols;
+	lines = lines & ~3;
+	cols = cols & ~3;
+	while(pot <= original_cols && pot <= original_lines) {
+//		cout << "lines: " << lines << ", cols: " << cols << ", pot: " << pot << endl;
 		vector< vector< int > > result;
 		int y = 0;
 		int x = 0;
@@ -55,9 +60,18 @@ int main() {
 		//////////////////////////////*/
 		fields.push_back(result);
 		source = result;
+		cout << pot << endl;
 		pot = pot << 1;
-		lines = lines >> 1;
-		cols = cols >> 1;
-		cout << ".";
+		lines = (lines >> 1) & ~3;
+		cols = (cols >> 1) & ~3;
+	}
+	cout << "read for requests" << endl;
+	int xmin, ymin, xmax, ymax;
+	while(cin >> xmin >> ymin >> xmax >> ymax) {
+		int mask = 512;
+		while(!((xmax - xmin) & mask) && !((ymax - ymin) & mask)) {
+			mask = mask >> 1;
+		}
+		cout << "bestmatch: " << mask << endl;
 	}
 }

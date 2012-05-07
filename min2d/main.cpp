@@ -5,6 +5,8 @@
 
 using namespace std;
 
+int findMin(int xmin, int ymin, int xmax, int ymax, vector<vector<vector<int > > > &fields, int pot);
+
 int main() {
 	int cols, lines;
 	cin >> cols >> lines;
@@ -49,15 +51,6 @@ int main() {
 				}
 			}
 
-	
-/*		///////////////////////////////
-		for(int v = 0; v < lines >> 1; v++) {
-			for(int u = 0; u < lines >> 1; u++)
-				cout << result[v][u] << " ";
-			cout << endl;
-		}
-		cout << "--------------------" << endl;	
-		//////////////////////////////*/
 		fields.push_back(result);
 		source = result;
 		cout << pot << endl;
@@ -67,47 +60,86 @@ int main() {
 	}
 	cout << "read for requests" << endl;
 	int xmin, ymin, xmax, ymax;
-	while(cin >> xmin >> ymin >> xmax >> ymax) {
-		int size = 512;
-		int pot = 9;
-		while(!((xmax - xmin) & mask) && !((ymax - ymin) & mask)) {
-			size = size >> 1;
-			pot--;
-		}
-		cout << "bestmatch: " << size << endl;
-		int xrel, yrel, xrelmax, yrelmax = 0;
-
-		//calc area, that matches precalced squares
-		while(xmin < xrel * size)
-			xreal++;
-		while(ymin < yrel * size)
-			yrel++;
-		while(xrelmax * size < xmax)
-			xrelmax += size;
-		xrelmax -= size;
-		while(yrelmax * size < ymax)
-			yrelmax += size;
-		yrelmax -= size;
-
-		//calc the minimum
-		int currMin = 0;
-
-		//precalculated squares inside the area
-		for(int x = xrel; x * size < xmax; x++)
-			for(int y = yrel; y * size < ymax; y++)
-				if(fields[pot][x][y] < currMin)
-					currMin = fields[pot][x][y];
-
-		//border left or over the squares
-		for(int x = xmin; x < xrel * size; x++)
-			for(int y = ymin; y < yrel * size; y++)
-				if(fields[0][x][y] < currMin)
-					currMin = fields[0][x][y];
-	
-		//border right or under the square
-		for(int x = xrelmax; x < xmax; x++)
-			for(int y = yrelmax; y < ymax; y++)
-				if(fields[0][x][y] < currMin)
-					currMin = fields[0][x][y];
+		while(cin >> xmin >> ymin >> xmax >> ymax) {
+		int result = findMin(xmin - 1, ymin - 1, xmax - 1, ymax - 1, fields, pot);
+		cout << "result: " << result << endl;
 	}
+}
+
+int findMin(int xmin, int ymin, int xmax, int ymax, vector<vector<vector<int > > > &fields, int maxpot) {
+
+	cout << "request: (" << xmin << "," << ymin << ")x(" << xmax << "," << ymax << ") with maxpot " << maxpot << ".";
+	//abort if there is no area
+/*	if(xmin - xmax == 0 || ymin - ymax == 0) {
+		cout << "abort - too small" << endl;
+		return INT_MAX;
+	}
+*/
+	//calc max mathing square-size
+	int size = 1;
+	int pot = 0;
+	while(!((xmax - xmin) & size) && !((ymax - ymin) & size) && pot <= maxpot) {
+		size = size << 1;
+		pot++;
+	}
+	if(size == 0)
+		return INT_MAX;
+
+	cout << "mathing pot is " << pot << " (" << size << ")" << ".";
+	//calc the left upper edge of matching area
+	int xrelmin, yrelmin, xrelmax, yrelmax;
+	xrelmin = xmin >> pot;
+	yrelmin = ymin >> pot;
+	xrelmax = xmax >> pot;
+	yrelmax = ymax >> pot;
+	/*
+	while(xrelmin * size < xmin)
+		xrelmin++;
+	while(yrelmin * size < ymin)
+		yrelmin++;
+
+	//calc the lower bottom edge of matching area
+	int xrelmax = xrelmin + (xmax / size);//xrelmin - 1;
+	int yrelmax = yrelmin + (ymax / size);//yrelmin - 1;
+
+	while(xrelmax * size < xmax)
+		xrelmax++;
+	while(yrelmax * size < ymax)
+		yrelmax++;*/
+
+
+	cout << "matching fields from (" << xrelmin * size << "," << yrelmin * size << ")x(" << xrelmax * size << "," << yrelmax * size << ")" << ".";
+	//calc the minimum inside the area
+	int currMin = INT_MAX;
+	for(int x = xrelmin; x <= xrelmax; x++)
+		for(int y = yrelmin; y <= yrelmin; y++)
+			if(fields[pot][x][y] < currMin)
+				currMin = fields[pot][x][y];
+	if(pot > 0) {
+	//calc the minimum at the borders
+	int tmp[4];
+	if(yrelmax * size != ymax + 1) {
+		cout << "top";
+		tmp[0] = findMin(xmin, ymin, xmax, yrelmax * size, fields, maxpot - 1); //top
+	}
+
+	if(xrelmax * size != xmax + 1) {
+		cout << "left";
+		tmp[1] = findMin(xmin, ymin, xrelmax * size, ymax, fields, maxpot - 1); //left
+	}
+
+	if(yrelmin * size != yrelmin) {
+		cout << "bottom";
+		tmp[2] = findMin(xmin, yrelmin * size, xmax, ymax, fields, maxpot - 1); //bottom
+	}
+	if(xrelmin * size != xrelmin) {
+		cout << "right";
+		tmp[3] = findMin(xrelmin * size, ymin, xmax, ymax, fields, maxpot - 1); //right
+	}
+	for(unsigned int i = 0; i < 4; i++)
+		if(tmp[i] < currMin)
+			currMin = tmp[i];
+	}
+	cout << "min: " << currMin << endl;
+	return currMin;
 }

@@ -5,9 +5,12 @@
 
 using namespace std;
 
+bool *coins = NULL;
+void erase(int* range);
+
 int main() {
 	int M; //# datasets
-	int
+
 	cin >> M;
 	cin.ignore(); //rest of the line
 	cin.ignore(); //the blank line
@@ -15,7 +18,9 @@ int main() {
 		int N; //# of coins
 		int K; //# of weightings
 		cin >> N >> K;
-		int coins[N];
+		coins = new bool[N];
+		for(unsigned int i = 0; i < N; i++)
+			coins[N] = false;
 		
 		for(unsigned int k = 0; k < K; k++) { //make k weightings
 			/** read the weighting **/
@@ -29,6 +34,24 @@ int main() {
 			cin >> op;
 
 			/** process **/
+			if(op == '=') {
+				erase(left);
+				erase(right);
+			} else {
+				if(op == '<')
+					erase(left);
+				else
+					erase(right);
+			}
 		}
 	}
 }
+
+void erase(int* range) {
+	unsigned int size = sizeof(range) / sizeof(int);
+	for(unsigned int i = 0; i < size; i++) {
+		cout << "set to false" << range[i] << endl; //DEBUG
+		coins[range[i]] = false;
+	}
+}
+

@@ -34,12 +34,12 @@ int main() {
 			cin >> op;
 
 			/** process **/
-			if(op == '=' || op == '<') {
+			if(op == '=' || op == '<') 
 				erase(left);
-			} 
+			 
 			if(op == '=' || op == '>')
 				erase(right);
-			}
+			
 		}
 
 		//find the (only) coin, that is still true

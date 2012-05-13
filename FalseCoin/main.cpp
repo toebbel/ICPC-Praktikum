@@ -20,7 +20,7 @@ int main() {
 		cin >> N >> K;
 		coins = new bool[N];
 		for(unsigned int i = 0; i < N; i++)
-			coins[N] = false;
+			coins[N] = true;
 		
 		for(unsigned int k = 0; k < K; k++) { //make k weightings
 			/** read the weighting **/
@@ -41,6 +41,16 @@ int main() {
 				erase(right);
 			}
 		}
+
+		//find the (only) coin, that is still true
+		int coin = 0;
+		for(unsigned int i = 0; i < N; i++)
+			if(coins[i]) 
+				if(coin == 0)	//no coin found yet
+					coin = i;
+				else
+					coin = -1; //there are multiple coins
+		cout << ++coin << endl; //+1 because -1 -> 0 (no result) and coind-ids are not 0-based
 	}
 }
 

@@ -34,14 +34,11 @@ int main() {
 			cin >> op;
 
 			/** process **/
-			if(op == '=') {
+			if(op == '=' || op == '<') {
 				erase(left);
+			} 
+			if(op == '=' || op == '>')
 				erase(right);
-			} else {
-				if(op == '<')
-					erase(left);
-				else
-					erase(right);
 			}
 		}
 	}

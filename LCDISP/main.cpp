@@ -36,7 +36,10 @@ int main() {
 			cout << " ";
 			for(int j = 0; j < size; j++)
 				cout << line0[digits[i]];
-			cout << "  ";
+			if(i < digits.size() - 1)
+				cout << "  ";
+			else
+				cout << " ";
 		}
 		cout << endl;
 
@@ -46,7 +49,9 @@ int main() {
 			cout << line1_1[digits[i]];
 			for(int j = 0; j < size; j++)
 				cout << " ";
-			cout << line1_2[digits[i]] << " ";
+			cout << line1_2[digits[i]];
+			if(i < digits.size() - 1)
+				cout << " ";
 		}
 		cout << endl;
 		}
@@ -56,7 +61,10 @@ int main() {
 			cout << " ";
 			for(int j = 0; j < size; j++)
 				cout << line2[digits[i]];
-			cout << "  ";
+			if(i < digits.size() - 1)
+				cout << "  ";
+			else 
+				cout << " ";
 		}
 		cout << endl;
 
@@ -66,7 +74,9 @@ int main() {
 			cout << line3_1[digits[i]];
 			for(int j = 0; j < size; j++)
 				cout << " ";
-			cout << line3_2[digits[i]] << " ";
+			cout << line3_2[digits[i]];
+			if(i < digits.size() - 1)
+				cout << " ";
 		}
 		cout << endl;
 		}
@@ -76,7 +86,10 @@ int main() {
 			cout << " ";
 			for(int j = 0; j < size; j++)
 				cout << line4[digits[i]];
-			cout << "  ";
+			if(i < digits.size() - 1)
+				cout << "  ";
+			else
+				cout << " ";
 		}
 		cout << endl << endl;
 	}	

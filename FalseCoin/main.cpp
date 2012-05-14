@@ -34,13 +34,13 @@ int main() {
 			}
 			cin >> op;
 
-			//DEBUG--------
+			/*/DEBUG--------
 			for(unsigned int i = 0; i < pi; i++)
 				cout << "left" << left[i] << endl;
 			for(unsigned int i = 0; i < pi; i++)
 				cout << "right" << right[i] << endl;
 			cout << op << endl;
-			//debug end
+			//debug end*/
 			
 			if(op == '=' || op == '<') {
 				erase(&tooBig, &left);
@@ -51,7 +51,7 @@ int main() {
 				erase(&tooSmall, &left);
 			}
 
-			//DEBUG--------
+			/*/DEBUG--------
 			cout << "tooBig: ";
 			for(unsigned int i = 0; i < N; i++) 
 				cout << tooBig[i] << ", ";
@@ -59,8 +59,8 @@ int main() {
 			for(unsigned int i = 0; i < N; i++)
 				cout << tooSmall[i] << ", ";
 			cout << endl;
-			//debug end
-			}
+			//debug end*/
+		}
 		
 		int falseCoin_big = -1;
 		int falseCoin_small = -1;

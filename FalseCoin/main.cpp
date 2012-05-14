@@ -1,102 +1,41 @@
+#include <vector>
 #include <iostream>
-#include <string>
-#include <algorithm>
-#include <math.h>
-
-#define DEBUG
 
 using namespace std;
 
-bool *coins = NULL;
-
 int main() {
-	int M; //# datasets
-
+	int M; //#testcases
+	int N; //number of coins
+	int K; //number of weightings
+	
 	cin >> M;
-	cin.ignore(); //rest of the line
-	cin.ignore(); //the blank line
+
 	for(unsigned int m = 0; m < M; m++) {
-		int N; //# of coins
-		int K; //# of weightings
 		cin >> N >> K;
-		#ifdef DEBUG
-			cout << "N=" << N << ", K=" << K << endl;
-		#endif
-		coins = new bool[N];
-		for(unsigned int i = 0; i < N; i++)
-			coins[N] = true;
+		vector<bool> tooBig(N, false);
+		vector<bool> tooSmall(N, false);
 		
-		for(unsigned int k = 0; k < K; k++) { //make k weightings
-			/** read the weighting **/
-			int pi; //#coins left/right
+		int pi;
+		char op = '=';
+		for(unsigned int k = 0; k < K; k++) {
 			cin >> pi;
-			#ifdef DEBUG
-				cout << "there will be " << pi << " coins on each side" << endl;
-			#endif
-			int left[pi], right[pi]; //tmp arrays to read the lines
-			for(unsigned int i = 0; i < pi; i++) {
-				cin >> left[pi];
-				#ifdef DEBUG
-					cout << "read " << left[pi] << endl;
-				#endif
-			}
-			#ifdef DEBUG
-				cout << "now right";
-			#endif
-			for(unsigned int i = 0; i < pi; i++) {
-				cin >> right[pi];
-				#ifdef DEBUG
-					cout << "read " << right[pi] << endl;
-				#endif
-			}
-			char op = '=';
+			vector<int> left(pi);
+			vector<int> right(pi);
+
+			for(unsigned int i = 0; i < pi; i++)
+				cin >> left[i];
+			for(unsigned int i = 0; i < pi; i++)
+				cin >> right[i];
 			cin >> op;
-			
-			/** process **/
-			if(op == '=' || op == '<') {
-				#ifdef DEBUG
-					cout << "erase left (op " << op << ")" << endl;
-				#endif
-			//	erase(left);
-				for(unsigned int i = 0; i < sizeof(left) / sizeof(int); i++) {
-					cout << "set to false" << left[i] << endl; //DEBUG
-					coins[left[i] - 1] = false;
-				}
 
-			}
-			 
-			if(op == '=' || op == '>') {
-				#ifdef DEBUG
-					cout << "erase right (op " << op << ")" << endl;
-				#endif
-//				erase(right);
-				for(unsigned int i = 0; i < sizeof(right) / sizeof(int); i++) {
-					cout << "set to false" << right[i] << endl; //DEBUG
-					coins[right[i] - 1] = false;
-				}
-
-			}
+			//DEBUG--------
+			for(unsigned int i = 0; i < pi; i++)
+				cout << "left" << left[i] << endl;
+			for(unsigned int i = 0; i < pi; i++)
+				cout << "right" << right[i] << endl;
+			cout << op << endl;
+			//debug end
 			
 		}
-
-		//find the (only) coin, that is still true
-		int coin = 0;
-		for(unsigned int i = 0; i < N; i++)
-			if(coins[i]) { 
-				#ifdef DEBUG
-					cout << "coin " << i << " is candidate" << endl;
-				#endif
-				if(coin == 0)	//no coin found yet
-					coin = i;
-				else {
-					coin = -1; //there are multiple coins
-		cout << ++coin << endl; //+1 because -1 -> 0 (no result) and coind-ids are not 0-based
-				#ifdef DEBUG
-					cout << "more than one candidate!" << endl;
-				#endif
-				}
-			}
 	}
 }
-
-

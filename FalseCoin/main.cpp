@@ -8,7 +8,6 @@
 using namespace std;
 
 bool *coins = NULL;
-void erase(int* range);
 
 int main() {
 	int M; //# datasets
@@ -58,14 +57,24 @@ int main() {
 				#ifdef DEBUG
 					cout << "erase left (op " << op << ")" << endl;
 				#endif
-				erase(left);
+			//	erase(left);
+				for(unsigned int i = 0; i < sizeof(left) / sizeof(int); i++) {
+					cout << "set to false" << left[i] << endl; //DEBUG
+					coins[left[i] - 1] = false;
+				}
+
 			}
 			 
 			if(op == '=' || op == '>') {
 				#ifdef DEBUG
 					cout << "erase right (op " << op << ")" << endl;
 				#endif
-				erase(right);
+//				erase(right);
+				for(unsigned int i = 0; i < sizeof(right) / sizeof(int); i++) {
+					cout << "set to false" << right[i] << endl; //DEBUG
+					coins[right[i] - 1] = false;
+				}
+
 			}
 			
 		}
@@ -90,11 +99,4 @@ int main() {
 	}
 }
 
-void erase(int* range) {
-	unsigned int size = sizeof(range) / sizeof(int);
-	for(unsigned int i = 0; i < size; i++) {
-		cout << "set to false" << range[i] << endl; //DEBUG
-		coins[range[i]] = false;
-	}
-}
 

@@ -1,6 +1,6 @@
 #include <vector>
 #include <iostream>
-
+#include <algorithm>
 using namespace std;
 
 void erase(vector<bool> *in, vector<int> *items);
@@ -13,6 +13,8 @@ int main() {
 	cin >> M;
 
 	for(unsigned int m = 0; m < M; m++) {
+		if(m > 0)
+			cout << endl;
 		cin >> N >> K;
 		vector<bool> tooBig(N, false);
 		vector<bool> tooSmall(N, false);
@@ -42,13 +44,31 @@ int main() {
 			cout << op << endl;
 			//debug end*/
 			
-			if(op == '=' || op == '<') {
+			if(op == '=' && op != '<') {
 				erase(&tooBig, &left);
 				erase(&tooSmall, &right);
+
 			}
-			if (op == '=' || op == '>') {
+			if (op == '=' && op != '>') {
 				erase(&tooBig, &right);
 				erase(&tooSmall, &left);
+			}
+			if(op == '<' || op == '>') {
+				int noInfo = N - right.size() - left.size();
+				cout << "there are " << noInfo << " elements to delete" << endl;
+				vector<int> all(noInfo);
+				for(int i = 0; i < N; i++)
+					all[i] = i;
+				for(int i = 0; i < right.size(); i++) {
+					cout << "erase " << right[i] << endl;
+					all.erase(all.begin()+right[i]);
+				}
+				for(int i = 0; i < left.size(); i++) {
+					cout << "erase " << left[i] << endl;
+					all.erase(all.begin()+left[i]);
+				}
+				erase(&tooBig, &all);
+				erase(&tooSmall, &all);
 			}
 
 			/*/DEBUG--------
@@ -103,3 +123,4 @@ void erase(vector<bool> *in, vector<int> *elements) {
 		(*in)[*it] = true;
 	}
 }
+

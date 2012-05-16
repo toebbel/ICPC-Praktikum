@@ -45,32 +45,35 @@ int main() {
 			//debug end*/
 			
 			if(op == '=' && op != '<') {
+//				cout << "in tooBig:";
 				erase(&tooBig, &left);
+//				cout << "in tooSmall:";
 				erase(&tooSmall, &right);
 
 			}
 			if (op == '=' && op != '>') {
+//				cout << "in tooBig: ";
 				erase(&tooBig, &right);
+//				cout << "in tooSmall: ";
 				erase(&tooSmall, &left);
 			}
 			if(op == '<' || op == '>') {
-				int noInfo = N - right.size() - left.size();
-				cout << "there are " << noInfo << " elements to delete" << endl;
-				vector<int> all(noInfo);
-				for(int i = 0; i < N; i++)
-					all[i] = i;
-				for(int i = 0; i < right.size(); i++) {
-					cout << "erase " << right[i] << endl;
-					all.erase(all.begin()+right[i]);
+				bool all[N];
+				for(unsigned int i = 0; i < N; i++)
+					all[i] = true;
+				for(int i = 0; i < N; i++) {
+					if(find(right.begin(), right.end(), i) == right.end() && find(left.begin(), left.end(), i) == left.end())
+						all[i] = false;
 				}
-				for(int i = 0; i < left.size(); i++) {
-					cout << "erase " << left[i] << endl;
-					all.erase(all.begin()+left[i]);
-				}
-				erase(&tooBig, &all);
-				erase(&tooSmall, &all);
+				
+				for(unsigned int i = 0; i < N; i++)
+					if(!all[i]){
+//						cout << "both: " << i << endl;
+						tooBig[i] = true;
+						tooSmall[i] = true;
+					}
 			}
-
+			
 			/*/DEBUG--------
 			cout << "tooBig: ";
 			for(unsigned int i = 0; i < N; i++) 
@@ -119,7 +122,7 @@ int main() {
 
 void erase(vector<bool> *in, vector<int> *elements) {
 	for(vector<int>::iterator it = elements->begin(); it != elements->end(); ++it) {
-		cout << "remove " << *it << endl;
+//		cout << "remove " << *it << endl;
 		(*in)[*it] = true;
 	}
 }

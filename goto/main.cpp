@@ -42,10 +42,10 @@ int main() {
 		for(int i = 0; i < l; i++) {  //read root labels
 			cin >> root;
 //			cout << "root: " << root << endl;
-			visit(labels[root]);
+			visit(labels[root - 1]);
 		}
 
-		cout << hits << endl << endl;
+		cout << hits << endl;
 	}
 }
 
@@ -54,6 +54,6 @@ void visit(label* root) {
 	if(root->visited) return;
 	root->visited = true;
 	hits++;
-	for(int i = 0; i < root->reachable.size(); i++)
+	for(unsigned int i = 0; i < root->reachable.size(); i++)
 		visit(root->reachable[i]);
 }

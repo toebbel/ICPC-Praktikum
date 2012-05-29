@@ -17,7 +17,7 @@ int hits;
 int main() {
 	unsigned int T;//#testcases
 	cin >> T;
-	for(unsigned int t = 0; t < T; t++) {
+	for(unsigned int t = 1; t <= T; t++) {
 		int n, m, l; //#labels, #edges, #root-labels
 		cin >> n >> m >> l;
 		
@@ -35,22 +35,22 @@ int main() {
 			int x, y; //from x to y
 			cin >> x >> y;
 			labels[x - 1]->reachable.push_back(labels[y - 1]); //labels are from 1..n
-			cout << x << " -> " << y << endl;
+//			cout << x << " -> " << y << endl;
 		}
 		
 		int root;
 		for(int i = 0; i < l; i++) {  //read root labels
 			cin >> root;
-			cout << "root: " << root << endl;
+//			cout << "root: " << root << endl;
 			visit(labels[root]);
 		}
 
-		cout << "Testcase #" << (t + 1) << ": " + hits << endl;
+		cout << hits << endl << endl;
 	}
 }
 
 void visit(label* root) {
-	cout << "visited " << root->id << "? " << root->visited << endl;
+//	cout << "visited " << root->id << "? " << root->visited << endl;
 	if(root->visited) return;
 	root->visited = true;
 	hits++;

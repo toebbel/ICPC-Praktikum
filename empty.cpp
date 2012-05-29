@@ -12,6 +12,6 @@ int main() {
 		int result = 0;
 		
 
-		cout << "Testcase #" << (n + 1) << ": " + result << endl;
+		cout << "Testcase #" << (n + 1) << ": " << result << endl;
 	}
 }

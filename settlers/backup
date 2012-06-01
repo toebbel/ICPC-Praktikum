@@ -1,0 +1,80 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+
+using namespace std;
+
+struct city {
+	bool visited;
+	vector<city*> adj;
+	unsigned int id;
+	int len;
+};
+
+vector<city*> cities;
+bool edges[26][26];
+
+int main() {
+	unsigned int n, m;
+	while(cin >> n >> m && n != 0 && m != 0) {
+		cities.clear();
+		for(unsigned int i = 0; i < n; i++) {
+			cities.push_back(new city());
+			cities[i]->id = i;
+		}
+		for(unsigned int i = 0; i < m; i++)
+			for(unsigned int j = 0; j < m; j++)
+				edges[i][j] = false;
+
+		for(unsigned int i = 0; i < m; i++) {
+			unsigned int a, b;
+			cin >> a >> b;
+			cities[a]->adj.push_back(cities[b]);
+			cities[b]->adj.push_back(cities[a]);
+			edges[a][b] = true;
+			edges[b][a] = true;
+	//		cout << a << " <-> " << b << endl;
+		}
+
+		queue<city*> q;
+		stack<city*> s;
+		for(unsigned int i = 0; i < n; i++) 
+			q.push(cities[i]);
+
+		int treeMax = 0;
+		int localMax = 0;
+		while(q.size() > 0) {
+			if(q.front()->visited) {
+				q.pop();
+				continue;
+			}
+			localMax = 0;
+			s.push(q.front());
+			q.pop();
+		//	cout << "root" << endl;
+			while(s.size() > 0) {
+				city *root = s.top();
+				s.pop();
+		//		if(root->visited) continue;
+	
+				root->visited = true;
+				for(unsigned int i = 0; i < root->adj.size(); i++) {
+					if(edges[root->id][root->adj[i]->id]) {
+						edges[root->id][root->adj[i]->id] = false;
+						edges[root->adj[i]->id][root->id] = false;
+						s.push(root->adj[i]);
+						root->adj[i]->len = root->len + 1;
+					}
+				}
+			}
+		
+		for(unsigned int i = 0; i < cities.size(); i++)
+			if(cities[i]->len > treeMax)
+				treeMax = cities[i]->len;
+		
+		}
+		cout << treeMax << endl;
+	}
+}
+

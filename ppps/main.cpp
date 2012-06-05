@@ -16,22 +16,40 @@ vector<node> nodes;
 int colors[2];
 
 int main() {
-	//read the graph
-	
-	int result = 0;
-	for(unsigned int i = 0; i < nodes.size() && result >= 0; i++) {
-		if(nodes[i].visited) continue;
-		colors[0] = colors[1] = 0;
-		if(colorNode(i, 1))
-			result += min(colors[0], colors[1]);
+	int streets, inters;
+	while(cin >> inters >> streets && inters != 0 && streets != 0) {
+		nodes.clear();
+		nodes.resize(inters);
+		for(int i = 0; i < streets; i++) {
+			int a, b;
+			cin >> a >> b;
+			nodes[a - 1].connected.push_back(b - 1);
+			nodes[b - 1].connected.push_back(a - 1);
+		}
+
+		int result = 0;
+		for(unsigned int i = 0; i < nodes.size(); i++) {
+			if(nodes[i].visited) continue;
+			colors[0] = colors[1] = 0;
+			if(colorNode(i, 1))
+				result += min(colors[0], colors[1]);
+			else {
+				result = -1;
+				break;
+			}
+		}
+
+		if(result == -1)
+			cout << "Impossible" << endl;
 		else
-			result = -1;
+			cout << result << endl;
 	}
 }
 
 bool colorNode(int root, int color) {
 	nodes[root].color = color;
 	nodes[root].visited = true;
+	colors[color]++;
 	for(unsigned int i = 0; i < nodes[root].connected.size(); i++) {
 		node *other = &nodes[nodes[root].connected[i]];
 		if(other->color == color && other->visited)

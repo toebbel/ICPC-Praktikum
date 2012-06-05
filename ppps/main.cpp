@@ -17,7 +17,7 @@ int colors[2];
 
 int main() {
 	int streets, inters;
-	while(cin >> inters >> streets && inters != 0 && streets != 0) {
+	while(cin >> inters >> streets) {
 		nodes.clear();
 		nodes.resize(inters);
 		for(int i = 0; i < streets; i++) {

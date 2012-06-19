@@ -4,28 +4,20 @@
 using namespace std;
 
 int main() {
-	
-	stack<char> map;
+	stack<int> map;
 	char curr;
 	int pool = 0;
+	int count = 0;
 	while(cin >> curr) {
-		if(curr == '_' || curr == '\\')
-			map.push(curr);
-		else {
-			int tmp = 1;
-			while(map.size() > 0 && map.top() != '\\') {
-				tmp += 2;
+		if(curr == '\\')
+			map.push(count);
+		if(curr == '/')
+			if(map.size() > 0) {
+				pool += count - map.top();
+	//			cout << "add " << count - map.top() << endl;
 				map.pop();
 			}
-			if(map.size() == 0)
-				tmp = 0;
-			for(int i = 0; i < tmp; i++)
-				map.push('_');
-			cout << "add " << tmp << endl;
-			pool += tmp;
-		}
-	}	
-
+		count++;
+	}
 	cout << pool << endl;
-		
 }

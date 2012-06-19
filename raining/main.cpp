@@ -1,32 +1,31 @@
 #include <iostream>
+#include <stack>
 
 using namespace std;
 
 int main() {
-	int N;
-	cin >> N; //#testcasses
 	
-	vector<int> line;
+	stack<char> map;
 	char curr;
-	int depth = 0;
+	int pool = 0;
 	while(cin >> curr) {
-		if(curr == '-')
-			line.push_back(depth);
-		else if(curr == '/') {
-			depth --;
-			line.push_back(depth);
-		} else if(curr == '\\') {
-			depth++;
-			line.push_back(depth);
+		if(curr == '_' || curr == '\\')
+			map.push(curr);
+		else {
+			int tmp = 1;
+			while(map.size() > 0 && map.top() != '\\') {
+				tmp += 2;
+				map.pop();
+			}
+			if(map.size() == 0)
+				tmp = 0;
+			for(int i = 0; i < tmp; i++)
+				map.push('_');
+			cout << "add " << tmp << endl;
+			pool += tmp;
 		}
-	}
+	}	
 
-	int pool;
-	for(int right = 1; left < line.size(); right++) {
-		for(int left = right -1; left >= 0 && line[left] < line[right]; left--);
-		if(left >= 0) {
-			pool += (right - left - 1);
-			cout << "from " << left << " to " << right << " are " << (right - left - 1) << " units"<<endl;
-		}
-	}
+	cout << pool << endl;
+		
 }

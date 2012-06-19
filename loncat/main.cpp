@@ -8,7 +8,7 @@
 using namespace std;
 
 struct cat {
-	double angle;
+	float angle;
 	double distance;
 	long height;
 	long x, y;
@@ -42,11 +42,11 @@ int main() {
 	if(N == 0)
 		break;
 	for(int i = 0; i < N; i++) {
-		double x, y, z;
+		long x, y, z;
 		cin >> x >> y >> z;
 		struct cat myCat;
 		if (x != 0)
-			myCat.angle = y / x;
+			myCat.angle = 0.00000001 * ((double)y / (double)x);
 		else
 			if(y < 0)
 				myCat.angle = INFINITY * -1;
@@ -69,7 +69,7 @@ int main() {
 		//while(j < N && abs(cats[j].angle - cats[i].angle) < tresh) {
 		while(j < N && cats[j].angle == cats[i].angle) {		
 			if(cats[i].height <= cats[j].height) {
-				cout << "cat " << i << " @ " << cats[i].x << "|" << cats[i].y << "|" << cats[i].height << " is smaller than cat " << j << " @ " << cats[j].x << "|" << cats[j].y << "|" << cats[j].height << endl;
+				cout << "cat " << i << " @ " << cats[i].x << "|" << cats[i].y << "|" << cats[i].height << "(" << cats[i].angle << ") is smaller than cat " << j << " @ " << cats[j].x << "|" << cats[j].y << "|" << cats[j].height << "(" << cats[j].angle << ")" << endl;
 				tooSmall.push_back(cats[i]);
 				break;
 			}

@@ -14,14 +14,14 @@ int main() {
 	for(int i = 2; i < n; i++) {
 		int candidate = i;
 		bool prime = true;
-		for(int j = 1; j < candidate && prime; j++) {
-			if(candidate % j == 0)
+		for(int j = 2; j < candidate && prime; j++) {
+			if(candidate % j == 0) {
 				prime = false;
+			}
 		}
 		if(prime) {
 			primes.push_back(candidate);
-			cout << candidate << ", ";
+	//		cout << candidate << ", ";
 		}
 	}
-
 }

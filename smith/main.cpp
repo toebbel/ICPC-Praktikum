@@ -39,7 +39,7 @@ int main() {
 }
 
 bool isPrime(int line) {
-	for(int j = 2; j < sqrt(line); j++)
+	for(int j = 2; j <= sqrt(line); j++)
 		if(line % j == 0)
 			return false;
 	return true;
@@ -57,22 +57,24 @@ bool isSmith(int line) {
 	
 //	cout << "splitting" << endl;
 	//split number in its prime factors
-	vector<int> prime_factors;
 	int sum_primes = 0;
 	for(unsigned int i = 0; i < primes.size() && input > 1; i++) {
 		while(input % primes[i] == 0 && input > 1) {
 			input /= primes[i];
-			prime_factors.push_back(primes[i]);
-			sum_primes += primes[i];
-			//cout << primes[i] << "-";
+			int tmp = primes[i];
+			while(tmp > 0) {
+				sum_primes += tmp % 10;
+				tmp /= 10;
+			}
 		}
 	}
-	while(input > 0) {
-		sum_primes += input % 10;
-		input /= 10;
+	if(input > 1) {
+		while(input > 0) {
+			sum_primes += input % 10;
+			input /= 10;
+		}
 	}
 
-	//cout << "sum primes = " << sum_primes << ", sum input = " << sum_input << endl;
 	return sum_primes == sum_input;
 	
 }
